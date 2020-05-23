@@ -22,7 +22,7 @@ try {
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-window.axios.defaults.headers.common['Authorization'] = 'Bearer a5E5d668asa54adsf8qwer849d51f551asdf';
+window.axios.defaults.headers.common['Authorization'] = 'Bearer L9mjLQksd5tbGQkjlx8QshPgT9XDCo3XD65UfYPxYZ5ciMgvr6nIu7m7Ww8j';
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

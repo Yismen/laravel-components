@@ -19,7 +19,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5",
-        "dainsys/timy": "dev-master",
+        "dainsys/timy": "*",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.5",
@@ -48,7 +48,7 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
-            "Dainsys\\Commands\\": "packages/laravel-clear-logs/src/",
+            "Dainsys\\Commands\\ClearLogs\\": "packages/laravel-clear-logs/src/",
             "Dainsys\\Timy\\": "packages/timy/src/"
         },
         "classmap": [
@@ -59,7 +59,7 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/",
-            "Dainsys\\Commands\\Tests\\": "packages/laravel-clear-logs/tests/",
+            "Dainsys\\Commands\\ClearLogs\\Tests\\": "packages/laravel-clear-logs/tests/",
             "Dainsys\\Timy\\Tests\\": "packages/timy/tests/"
         }
     },
