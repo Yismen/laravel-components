@@ -4,11 +4,11 @@
         <table class="table table-striped table-inverse table-responsive table-light">
             <thead class="thead-inverse">
                 <tr>
-                    <th>Disposition</th>
-                    <th>Started At</th>
-                    <th>Finished At</th>
-                    <th>Total Hours</th>
-                    <th>Total Payable Hours</th>
+                    <th scope="col">Disposition</th>
+                    <th scope="col">Started At</th>
+                    <th scope="col">Finished At</th>
+                    <th scope="col" width="10%">Total Hours</th>
+                    <th scope="col" width="10%">Total Payable Hours</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,7 +31,6 @@
 import moment from 'moment'
 import {TIMY_DROPDOWN_CONFIG, eventBus} from '../config'
 import Pagination from './_Pagination'
-
 export default {
     data() {
         return {
@@ -71,7 +70,7 @@ export default {
         /**
          * Parse the given date to a given format.
          */
-        getFormatedDate(date, format = 'YYYY-MMM-DD hh:mm:ss') {
+        getFormatedDate(date, format = 'YYYY-MMM-DD HH:mm:ss') {
             return moment(date).format(format)
         },
         /**
@@ -107,7 +106,7 @@ export default {
                         }
                     }
                 })
-            }, 6000)
+            }, 35000 /** Every 35 seconds, time that actually change a decimal value */)
         },
         /**
          * Return a boolean indicating if the current timer is payable to the user.

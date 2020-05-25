@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <div class="card mb-2">
         <div class="card-body">
             <h1 class="card-title">{{ title }}</h1>
             <div class="card-text" :title="description">{{ truncateElipse(description, 20) }}</div>

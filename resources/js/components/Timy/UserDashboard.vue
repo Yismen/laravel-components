@@ -4,27 +4,36 @@
         <div class="" v-else>
             <div class="row">
                 <div class="col-6 col-sm-6 col-lg-4 col-xl-3">
-                    <Infobox title="8.25" description="Hours Today" />
+                    <Infobox :title="Number(hours_today.hours).toFixed(2)" description="Hours Today" />
                 </div>
                 <div class="col-6 col-sm-6 col-lg-4 col-xl-3">
-                    <Infobox title="8.25" description="Previous Date" />
+                    <Infobox :title="Number(hours_last_date.hours).toFixed(2)" description="Previous Date" />
                 </div>
                 
                 <div class="col-6 col-sm-6 col-lg-4 col-xl-3">
-                    <Infobox title="8.25" description="This Payroll" />
+                    <Infobox :title="Number(hours_payrolltd.hours).toFixed(2)" description="This Payroll" />
                 </div>
                 
                 <div class="col-6 col-sm-6 col-lg-4 col-xl-3">
-                    <Infobox title="8.25" description="Last Payroll" />
+                    <Infobox :title="Number(hours_last_payroll.hours).toFixed(2)" description="Last Payroll" />
                 </div>
             </div>
             <div class="row">
-                <div class="col-auto">
-                   <TimersByPayroll />
+                <div class="col-xl-6">
+                   <TimersBarChart :chart-data="hours_daily"
+                    chart-title="Daily" 
+                    border-color="rgba(63, 81, 181, 1)" 
+                    background-color="rgba(63, 81, 181, 0.25)" />
+                </div>
+                <div class="col-xl-6">
+                   <TimersBarChart :chart-data="hours_by_payrolls" 
+                    chart-title="Hours By Payroll" 
+                    border-color="rgba(46,125,50 ,1)" 
+                    background-color="rgba(46,125,50 ,.25)" />
                 </div>
             </div>
             <div class="row">
-                <div class="col-auto">
+                <div class="col-auto col-sm-12">
                     <TimersTable /> 
                 </div>
             </div>
@@ -33,14 +42,21 @@
 </template>
 
 <script>
+import {TIMY_DROPDOWN_CONFIG} from './config'
 import Infobox from './partials/_Infobox'
 import TimersTable from './partials/_UserTimersTable'
-import TimersByPayroll from './partials/_UserTimersByPayrolls'
+import TimersBarChart from './partials/_UserTimersBarChart'
 
 export default {
     data() {
         return {
-            loading: true
+            loading: true,
+            hours_today: {},
+            hours_last_date: {},
+            hours_payrolltd: {},
+            hours_last_payroll: {},
+            hours_daily: {},
+            hours_by_payrolls: {}
         }
     },
 
@@ -49,10 +65,20 @@ export default {
          * Set up a timeout to give the Dropdown component the time to render and create a new timer. 
          * Trying to ensure the last timer is also fetched by the UserTimesTable component. 
          */
-        setTimeout(() => this.loading = false, 3000)
+        setTimeout(() => {
+            axios.get(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/timy_timers/user_dashboard`)
+                .then(({data}) => {
+                    this.hours_today = data.data.hours_today
+                    this.hours_last_date = data.data.hours_last_date
+                    this.hours_payrolltd = data.data.hours_payrolltd
+                    this.hours_daily = data.data.hours_daily
+                    this.hours_by_payrolls = data.data.hours_by_payrolls
+                })
+                .finally(() => this.loading = false)
+        }, 3000)
     },
 
-    components: {Infobox, TimersTable, TimersByPayroll}
+    components: {Infobox, TimersTable, TimersBarChart}
 }
 </script>
 
