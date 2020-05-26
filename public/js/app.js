@@ -2126,12 +2126,12 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       loading: true,
-      hours_today: {},
-      hours_last_date: {},
-      hours_payrolltd: {},
-      hours_last_payroll: {},
-      hours_daily: {},
-      hours_by_payrolls: {}
+      hours_today: 0,
+      hours_last_date: 0,
+      hours_payrolltd: 0,
+      hours_last_payroll: 0,
+      hours_daily: 0,
+      hours_by_payrolls: 0
     };
   },
   mounted: function mounted() {
@@ -2153,6 +2153,20 @@ __webpack_require__.r(__webpack_exports__);
         return _this.loading = false;
       });
     }, 3000);
+  },
+  computed: {
+    hoursToday: function hoursToday() {
+      return this.hours_today ? Number(this.hours_today.hours).toFixed(2) : 0;
+    },
+    hoursLastDate: function hoursLastDate() {
+      return this.hours_last_date ? Number(this.hours_last_date.hours).toFixed(2) : 0;
+    },
+    hoursPayrollTD: function hoursPayrollTD() {
+      return this.hours_payrolltd ? Number(this.hours_payrolltd.hours).toFixed(2) : 0;
+    },
+    hoursLastPayroll: function hoursLastPayroll() {
+      return this.hours_last_payroll ? Number(this.hours_last_payroll.hours).toFixed(2) : 0;
+    }
   },
   components: {
     Infobox: _partials_Infobox__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -2405,6 +2419,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -2412,6 +2430,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       loading: false,
+      now: null,
       timers: [],
       links: [],
       meta: [],
@@ -2422,15 +2441,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var _this = this;
 
     /**
-     * Change momentjs default configuration for invalid dates
-     */
-    moment__WEBPACK_IMPORTED_MODULE_1___default.a.updateLocale('en', {
-      invalidDate: '--:--'
-    });
-    /**
      * Update the timers list.
      */
-
     this.getTimers();
     /** 
      * Sibling components communication implementation. A better implementation 
@@ -2445,16 +2457,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _this.timers.filter(function (timer) {
-                  return timer.finished_at == null;
-                }).forEach(function (timer) {
-                  return timer.finished_at = moment__WEBPACK_IMPORTED_MODULE_1___default()();
+                return _this.timers.forEach(function (timer) {
+                  if (timer.finished_at == null) {
+                    timer.finished_at = moment__WEBPACK_IMPORTED_MODULE_1___default()().utcOffset(-240).format('YYYY-MMM-DD HH:mm:ss');
+                  }
                 });
 
               case 2:
+                _this.now = moment__WEBPACK_IMPORTED_MODULE_1___default()(); // reset timer
+
                 _this.timers.unshift(timer);
 
-              case 3:
+              case 4:
               case "end":
                 return _context.stop();
             }
@@ -2468,14 +2482,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }());
   },
   methods: {
-    /**
-     * Parse the given date to a given format.
-     */
-    getFormatedDate: function getFormatedDate(date) {
-      var format = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'YYYY-MMM-DD HH:mm:ss';
-      return moment__WEBPACK_IMPORTED_MODULE_1___default()(date).format(format);
-    },
-
     /**
      * Fetch the timers from the backend. If @param url is null, us index url, otherwise use 
      * passed url. This is ideal for using pagination links. Then the openTimersInterval 
@@ -2507,10 +2513,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     updateOpenTimers: function updateOpenTimers(timer) {
       var _this3 = this;
 
+      this.now = moment__WEBPACK_IMPORTED_MODULE_1___default()();
       this.openTimersInterval = setInterval(function () {
         _this3.timers.forEach(function (timer) {
           if (timer.finished_at == null) {
-            var total_hours = moment__WEBPACK_IMPORTED_MODULE_1___default()().diff(moment__WEBPACK_IMPORTED_MODULE_1___default()(timer.started_at), 'hours', true);
+            var total_hours = Number(moment__WEBPACK_IMPORTED_MODULE_1___default()().diff(moment__WEBPACK_IMPORTED_MODULE_1___default()(_this3.now), 'seconds') / 60 / 60);
             timer.total_hours = total_hours;
 
             if (!!timer.is_payable) {
@@ -2518,7 +2525,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         });
-      }, 35000
+      }, 1000
       /** Every 35 seconds, time that actually change a decimal value */
       );
     },
@@ -77372,10 +77379,7 @@ var render = function() {
               { staticClass: "col-6 col-sm-6 col-lg-4 col-xl-3" },
               [
                 _c("Infobox", {
-                  attrs: {
-                    title: Number(_vm.hours_today.hours).toFixed(2),
-                    description: "Hours Today"
-                  }
+                  attrs: { title: _vm.hoursToday, description: "Hours Today" }
                 })
               ],
               1
@@ -77387,7 +77391,7 @@ var render = function() {
               [
                 _c("Infobox", {
                   attrs: {
-                    title: Number(_vm.hours_last_date.hours).toFixed(2),
+                    title: _vm.hoursLastDate,
                     description: "Previous Date"
                   }
                 })
@@ -77401,7 +77405,7 @@ var render = function() {
               [
                 _c("Infobox", {
                   attrs: {
-                    title: Number(_vm.hours_payrolltd.hours).toFixed(2),
+                    title: _vm.hoursPayrollTD,
                     description: "This Payroll"
                   }
                 })
@@ -77415,7 +77419,7 @@ var render = function() {
               [
                 _c("Infobox", {
                   attrs: {
-                    title: Number(_vm.hours_last_payroll.hours).toFixed(2),
+                    title: _vm.hoursLastPayroll,
                     description: "Last Payroll"
                   }
                 })
@@ -77427,7 +77431,7 @@ var render = function() {
           _c("div", { staticClass: "row" }, [
             _c(
               "div",
-              { staticClass: "col-xl-6" },
+              { staticClass: "col-xl-6 mb-2 mb-xl-0" },
               [
                 _c("TimersBarChart", {
                   attrs: {
@@ -77725,25 +77729,41 @@ var render = function() {
                     _vm._v(_vm._s(timer.disposition))
                   ]),
                   _vm._v(" "),
-                  _c("td", [
-                    _vm._v(_vm._s(_vm.getFormatedDate(timer.started_at)))
-                  ]),
+                  _c("td", [_vm._v(_vm._s(timer.started_at))]),
                   _vm._v(" "),
-                  _c("td", [
-                    _vm._v(_vm._s(_vm.getFormatedDate(timer.finished_at)))
-                  ]),
+                  _c("td", [_vm._v(_vm._s(timer.finished_at))]),
                   _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      _vm._s(timer.total_hours.toFixed(2).toLocaleString())
-                    )
-                  ]),
+                  _c(
+                    "td",
+                    {
+                      class: [timer.is_payable ? "text-success" : "text-danger"]
+                    },
+                    [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(
+                            timer.total_hours.toFixed(2).toLocaleString()
+                          ) +
+                          "\n                "
+                      )
+                    ]
+                  ),
                   _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      _vm._s(timer.payable_hours.toFixed(2).toLocaleString())
-                    )
-                  ])
+                  _c(
+                    "td",
+                    {
+                      class: [timer.is_payable ? "text-success" : "text-danger"]
+                    },
+                    [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(
+                            timer.payable_hours.toFixed(2).toLocaleString()
+                          ) +
+                          "\n                "
+                      )
+                    ]
+                  )
                 ]
               )
             }),
