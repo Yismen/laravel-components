@@ -1981,11 +1981,11 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       this.loading = true;
-      axios.get("".concat(_config__WEBPACK_IMPORTED_MODULE_0__["TIMY_DROPDOWN_CONFIG"].routes_prefix, "/timy_timers/running")).then(function (_ref) {
+      axios.get("".concat(_config__WEBPACK_IMPORTED_MODULE_0__["TIMY_DROPDOWN_CONFIG"].routes_prefix, "/timers/running")).then(function (_ref) {
         var data = _ref.data;
         _this2.current = _this2.getCurrentDispositionId(data.data);
       }).then(function () {
-        axios.post("".concat(_config__WEBPACK_IMPORTED_MODULE_0__["TIMY_DROPDOWN_CONFIG"].routes_prefix, "/timy_timers"), {
+        axios.post("".concat(_config__WEBPACK_IMPORTED_MODULE_0__["TIMY_DROPDOWN_CONFIG"].routes_prefix, "/timers"), {
           disposition_id: _this2.current
         });
       })["finally"](function () {
@@ -2011,27 +2011,33 @@ __webpack_require__.r(__webpack_exports__);
     setupTimerToReloadWindow: function setupTimerToReloadWindow() {
       // Check if backend session is alive
       setInterval(function () {
-        axios.get('timy_ping')["catch"](function (error) {
+        axios.get("".concat(_config__WEBPACK_IMPORTED_MODULE_0__["TIMY_DROPDOWN_CONFIG"].routes_prefix, "/ping"))["catch"](function (error) {
           return window.location.reload();
         });
-      }, 15 * 60 * 1000);
+      }, 5 * 60 * 1000); // Every five minutes
 
       if (_config__WEBPACK_IMPORTED_MODULE_0__["TIMY_DROPDOWN_CONFIG"].auto_refresh && _config__WEBPACK_IMPORTED_MODULE_0__["TIMY_DROPDOWN_CONFIG"].auto_refresh == true) {
         setInterval(function () {
           window.location.reload();
+          /** Terminate current timer and trigger auth check */
         }, Number(_config__WEBPACK_IMPORTED_MODULE_0__["TIMY_DROPDOWN_CONFIG"].session_length));
       }
     },
     watchForWindowUnloadEvent: function watchForWindowUnloadEvent() {
+      /**
+       * Bootup a watched for when the window is closed and close all active timers.
+       */
       window.onbeforeunload = function () {
-        axios.post("".concat(_config__WEBPACK_IMPORTED_MODULE_0__["TIMY_DROPDOWN_CONFIG"].routes_prefix, "/timy_timers/close_all")).then(function (response) {});
+        axios.post("".concat(_config__WEBPACK_IMPORTED_MODULE_0__["TIMY_DROPDOWN_CONFIG"].routes_prefix, "/timers/close_all")).then(function () {
+          return _config__WEBPACK_IMPORTED_MODULE_0__["eventBus"].$emit('all-timers-closed');
+        });
       };
     },
     fetchDispositions: function fetchDispositions() {
       var _this3 = this;
 
       this.loading = true;
-      axios.get("".concat(_config__WEBPACK_IMPORTED_MODULE_0__["TIMY_DROPDOWN_CONFIG"].routes_prefix, "/timy_dispositions")).then(function (_ref2) {
+      axios.get("".concat(_config__WEBPACK_IMPORTED_MODULE_0__["TIMY_DROPDOWN_CONFIG"].routes_prefix, "/dispositions")).then(function (_ref2) {
         var data = _ref2.data;
         return _this3.dispositions = data.data;
       })["finally"](function () {
@@ -2042,7 +2048,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this4 = this;
 
       this.loading = true;
-      axios.post("".concat(_config__WEBPACK_IMPORTED_MODULE_0__["TIMY_DROPDOWN_CONFIG"].routes_prefix, "/timy_timers"), {
+      axios.post("".concat(_config__WEBPACK_IMPORTED_MODULE_0__["TIMY_DROPDOWN_CONFIG"].routes_prefix, "/timers"), {
         disposition_id: event.target.value
       }).then(function (_ref3) {
         var data = _ref3.data;
@@ -2052,7 +2058,8 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         js_cookie__WEBPACK_IMPORTED_MODULE_1___default.a.set(_config__WEBPACK_IMPORTED_MODULE_0__["TIMY_DROPDOWN_CONFIG"].cookie_prefix, response.disposition_id, {
           expires: 0.5
-        });
+        } // 0.5 days is 12 hours
+        );
       })["finally"](function () {
         return _this4.loading = false;
       });
@@ -2071,10 +2078,24 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./config */ "./resources/js/components/Timy/config.js");
-/* harmony import */ var _partials_Infobox__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./partials/_Infobox */ "./resources/js/components/Timy/partials/_Infobox.vue");
-/* harmony import */ var _partials_UserTimersTable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./partials/_UserTimersTable */ "./resources/js/components/Timy/partials/_UserTimersTable.vue");
-/* harmony import */ var _partials_UserTimersBarChart__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./partials/_UserTimersBarChart */ "./resources/js/components/Timy/partials/_UserTimersBarChart.vue");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./config */ "./resources/js/components/Timy/config.js");
+/* harmony import */ var _partials_Infobox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./partials/_Infobox */ "./resources/js/components/Timy/partials/_Infobox.vue");
+/* harmony import */ var _partials_UserTimersTable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./partials/_UserTimersTable */ "./resources/js/components/Timy/partials/_UserTimersTable.vue");
+/* harmony import */ var _partials_UserTimersBarChart__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./partials/_UserTimersBarChart */ "./resources/js/components/Timy/partials/_UserTimersBarChart.vue");
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -2127,8 +2148,10 @@ __webpack_require__.r(__webpack_exports__);
     return {
       loading: true,
       hours_today: 0,
-      hours_last_date: 0,
+      hours_today_initial: 0,
       hours_payrolltd: 0,
+      hours_payrolltd_initial: 0,
+      hours_last_date: 0,
       hours_last_payroll: 0,
       hours_daily: 0,
       hours_by_payrolls: 0
@@ -2138,21 +2161,50 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     /**
+     * listen to timer-counter-updated event by _UserTimersTabe 
+     * in method updateOpenTimers
+     */
+    _config__WEBPACK_IMPORTED_MODULE_1__["eventBus"].$on('timer-counter-updated', /*#__PURE__*/function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(hours) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this.hours_today.hours = Number(_this.hours_today_initial.hours) + Number(hours);
+                _this.hours_payrolltd.hours = _this.hours_payrolltd_initial.hours + hours;
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      return function (_x) {
+        return _ref.apply(this, arguments);
+      };
+    }()); // updateOpenTimers method
+
+    /**
      * Set up a timeout to give the Dropdown component the time to render and create a new timer. 
      * Trying to ensure the last timer is also fetched by the UserTimesTable component. 
      */
+
     setTimeout(function () {
-      axios.get("".concat(_config__WEBPACK_IMPORTED_MODULE_0__["TIMY_DROPDOWN_CONFIG"].routes_prefix, "/timy_timers/user_dashboard")).then(function (_ref) {
-        var data = _ref.data;
+      axios.get("".concat(_config__WEBPACK_IMPORTED_MODULE_1__["TIMY_DROPDOWN_CONFIG"].routes_prefix, "/timers/user_dashboard")).then(function (_ref2) {
+        var data = _ref2.data;
         _this.hours_today = data.data.hours_today;
-        _this.hours_last_date = data.data.hours_last_date;
+        _this.hours_today_initial = _objectSpread({}, data.data.hours_today);
         _this.hours_payrolltd = data.data.hours_payrolltd;
+        _this.hours_payrolltd_initial = _objectSpread({}, data.data.hours_payrolltd);
+        _this.hours_last_date = data.data.hours_last_date;
         _this.hours_daily = data.data.hours_daily;
         _this.hours_by_payrolls = data.data.hours_by_payrolls;
       })["finally"](function () {
         return _this.loading = false;
       });
-    }, 3000);
+    }, 2000);
   },
   computed: {
     hoursToday: function hoursToday() {
@@ -2169,9 +2221,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   components: {
-    Infobox: _partials_Infobox__WEBPACK_IMPORTED_MODULE_1__["default"],
-    TimersTable: _partials_UserTimersTable__WEBPACK_IMPORTED_MODULE_2__["default"],
-    TimersBarChart: _partials_UserTimersBarChart__WEBPACK_IMPORTED_MODULE_3__["default"]
+    Infobox: _partials_Infobox__WEBPACK_IMPORTED_MODULE_2__["default"],
+    TimersTable: _partials_UserTimersTable__WEBPACK_IMPORTED_MODULE_3__["default"],
+    TimersBarChart: _partials_UserTimersBarChart__WEBPACK_IMPORTED_MODULE_4__["default"]
   }
 });
 
@@ -2430,7 +2482,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       loading: false,
-      now: null,
+      now: moment__WEBPACK_IMPORTED_MODULE_1___default()(),
       timers: [],
       links: [],
       meta: [],
@@ -2493,7 +2545,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           _this2 = this;
 
       var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-      url = (_url = url) !== null && _url !== void 0 ? _url : "".concat(_config__WEBPACK_IMPORTED_MODULE_2__["TIMY_DROPDOWN_CONFIG"].routes_prefix, "/timy_timers");
+      url = (_url = url) !== null && _url !== void 0 ? _url : "".concat(_config__WEBPACK_IMPORTED_MODULE_2__["TIMY_DROPDOWN_CONFIG"].routes_prefix, "/timers");
       axios.get(url).then(function (_ref2) {
         var data = _ref2.data;
         _this2.timers = data.data;
@@ -2513,11 +2565,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     updateOpenTimers: function updateOpenTimers(timer) {
       var _this3 = this;
 
-      this.now = moment__WEBPACK_IMPORTED_MODULE_1___default()();
       this.openTimersInterval = setInterval(function () {
         _this3.timers.forEach(function (timer) {
           if (timer.finished_at == null) {
             var total_hours = Number(moment__WEBPACK_IMPORTED_MODULE_1___default()().diff(moment__WEBPACK_IMPORTED_MODULE_1___default()(_this3.now), 'seconds') / 60 / 60);
+            _config__WEBPACK_IMPORTED_MODULE_2__["eventBus"].$emit('timer-counter-updated', total_hours);
             timer.total_hours = total_hours;
 
             if (!!timer.is_payable) {
@@ -2525,9 +2577,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         });
-      }, 1000
+      }, 35000);
       /** Every 35 seconds, time that actually change a decimal value */
-      );
     },
 
     /**
@@ -23162,7 +23213,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.bg-green[data-v-9fac937a] {\nbackground-color: rgba(59, 193, 114, 0.5);\n}\n.bg-yellow[data-v-9fac937a] {\nbackground-color: rgba(255, 237, 74, 0.5);\n}\n.loading[data-v-9fac937a] {\n    padding: 0.5rem !important;\n    font-family: SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace !important;\n    font-style: italic !important;\n    font-weight: bolder !important;\n}\n.custom-select[data-v-9fac937a]{\n    cursor: pointer;\n    display: inline-block;\n    width: 100%;\n    height: calc(1.6em + 0.75rem + 2px);\n    padding: 0.375rem 1.75rem 0.375rem 0.75rem;\n    font-size: 0.9rem;\n    font-weight: 400;\n    line-height: 1.6;\n    color: #495057;\n    vertical-align: middle;\n    border: 1px solid #ced4da;\n    border-radius: 0.25rem;\n    -webkit-appearance: none;\n    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,\n        box-shadow 0.15s ease-in-out;\n    background: #fff\n        url(data:image/svg+xml,%3csvg xmlns=http://www.w3.org/2000/svg width=4 height=5 viewBox=0 0 4 5%3e%3cpath fill=%23343a40 d=M2 0L0 2h4zm0 5L0 3h4z/%3e%3c/svg%3e)\n        no-repeat right 0.75rem center/8px 10px;\n}\n.disposition_option[data-v-9fac937a] {\n    cursor: pointer;\n}\n.disposition_option[data-v-9fac937a]:hover {\n    cursor: pointer;\n    border: none !important;\n}\n", ""]);
+exports.push([module.i, "\n.loading[data-v-9fac937a] {\n    padding: 0.5rem !important;\n    font-family: SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace !important;\n    font-style: italic !important;\n    font-weight: bolder !important;\n}\n.custom-select[data-v-9fac937a]{\n    cursor: pointer;\n    display: inline-block;\n    width: 100%;\n    height: calc(1.6em + 0.75rem + 2px);\n    padding: 0.375rem 1.75rem 0.375rem 0.75rem;\n    font-size: 0.9rem;\n    font-weight: 400;\n    line-height: 1.6;\n    color: #495057;\n    vertical-align: middle;\n    border: 1px solid #ced4da;\n    border-radius: 0.25rem;\n    -webkit-appearance: none;\n    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,\n        box-shadow 0.15s ease-in-out;\n    background: #fff\n        url(data:image/svg+xml,%3csvg xmlns=http://www.w3.org/2000/svg width=4 height=5 viewBox=0 0 4 5%3e%3cpath fill=%23343a40 d=M2 0L0 2h4zm0 5L0 3h4z/%3e%3c/svg%3e)\n        no-repeat right 0.75rem center/8px 10px;\n}\n.disposition_option[data-v-9fac937a] {\n    cursor: pointer;\n}\n.disposition_option[data-v-9fac937a]:hover {\n    cursor: pointer;\n    border: none !important;\n}\n", ""]);
 
 // exports
 
@@ -77304,7 +77355,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("li", { staticClass: "__dispos_control" }, [
+  return _c("form", { staticClass: "form-inline" }, [
     _vm.loading
       ? _c("div", { staticClass: "loading" }, [
           _vm._v("\n      Loading...\n  ")
@@ -77313,7 +77364,9 @@ var render = function() {
           "select",
           {
             staticClass: "custom-select",
-            class: [_vm.payable ? "bg-green" : "bg-yellow"],
+            class: [
+              _vm.payable ? "bg-success text-white" : "bg-danger text-white"
+            ],
             attrs: { id: "inputGroupSelect01" },
             on: {
               change: function($event) {
@@ -77328,7 +77381,11 @@ var render = function() {
               {
                 key: disposition.id,
                 staticClass: "disposition_option",
-                class: [disposition.payable == 1 ? "bg-white" : "bg-yellow"],
+                class: [
+                  !!disposition.payable
+                    ? "bg-white text-dark"
+                    : "bg-danger text-white"
+                ],
                 domProps: {
                   selected: _vm.current == disposition.id,
                   value: disposition.id
@@ -77431,12 +77488,12 @@ var render = function() {
           _c("div", { staticClass: "row" }, [
             _c(
               "div",
-              { staticClass: "col-xl-6 mb-2 mb-xl-0" },
+              { staticClass: "col-12 mb-2" },
               [
                 _c("TimersBarChart", {
                   attrs: {
                     "chart-data": _vm.hours_daily,
-                    "chart-title": "Daily",
+                    "chart-title": "Daily Hours",
                     "border-color": "rgba(63, 81, 181, 1)",
                     "background-color": "rgba(63, 81, 181, 0.25)"
                   }
@@ -77447,7 +77504,7 @@ var render = function() {
             _vm._v(" "),
             _c(
               "div",
-              { staticClass: "col-xl-6" },
+              { staticClass: "col-12" },
               [
                 _c("TimersBarChart", {
                   attrs: {
@@ -77529,109 +77586,119 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("nav", { attrs: { "aria-label": "" } }, [
-    _c("ul", { staticClass: "pagination mt-2 mb-2" }, [
-      _c(
-        "li",
-        { staticClass: "page-item", class: { disabled: !_vm.links.prev } },
-        [
+  return _vm.meta.total > _vm.meta.per_page
+    ? _c("nav", { attrs: { "aria-label": "" } }, [
+        _c("ul", { staticClass: "pagination mt-2 mb-2" }, [
           _c(
-            "a",
-            {
-              staticClass: "page-link",
-              attrs: { href: "#", "aria-label": "Previous" },
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.fetchData(_vm.links.prev)
-                }
-              }
-            },
-            [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("«")])]
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "li",
-        { staticClass: "page-item", class: { disabled: !_vm.links.prev } },
-        [
+            "li",
+            { staticClass: "page-item", class: { disabled: !_vm.links.prev } },
+            [
+              _c(
+                "a",
+                {
+                  staticClass: "page-link",
+                  attrs: { href: "#", "aria-label": "Previous" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.fetchData(_vm.links.prev)
+                    }
+                  }
+                },
+                [
+                  _c("span", { attrs: { "aria-hidden": "true" } }, [
+                    _vm._v("«")
+                  ])
+                ]
+              )
+            ]
+          ),
+          _vm._v(" "),
           _c(
-            "a",
-            {
-              staticClass: "page-link",
-              attrs: { href: "#", "aria-label": "Previous" },
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.fetchData(_vm.links.first)
-                }
-              }
-            },
-            [_vm._v("\r\n                First\r\n            ")]
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "li",
-        { staticClass: "page-item", class: { disabled: !_vm.links.next } },
-        [
+            "li",
+            { staticClass: "page-item", class: { disabled: !_vm.links.prev } },
+            [
+              _c(
+                "a",
+                {
+                  staticClass: "page-link",
+                  attrs: { href: "#", "aria-label": "Previous" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.fetchData(_vm.links.first)
+                    }
+                  }
+                },
+                [_vm._v("\r\n                First\r\n            ")]
+              )
+            ]
+          ),
+          _vm._v(" "),
           _c(
-            "a",
-            {
-              staticClass: "page-link",
-              attrs: { href: "#", "aria-label": "Previous" },
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.fetchData(_vm.links.last)
-                }
-              }
-            },
-            [_vm._v("\r\n                Last\r\n            ")]
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "li",
-        { staticClass: "page-item", class: { disabled: !_vm.links.next } },
-        [
+            "li",
+            { staticClass: "page-item", class: { disabled: !_vm.links.next } },
+            [
+              _c(
+                "a",
+                {
+                  staticClass: "page-link",
+                  attrs: { href: "#", "aria-label": "Previous" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.fetchData(_vm.links.last)
+                    }
+                  }
+                },
+                [_vm._v("\r\n                Last\r\n            ")]
+              )
+            ]
+          ),
+          _vm._v(" "),
           _c(
-            "a",
-            {
-              staticClass: "page-link",
-              attrs: { href: "#", "aria-label": "Next" },
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.fetchData(_vm.links.next)
-                }
-              }
-            },
-            [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("»")])]
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c("li", { staticClass: "page-item description-link pl-2" }, [
-        _vm._v(
-          "\r\n             Page " +
-            _vm._s(_vm.meta.current_page) +
-            " of " +
-            _vm._s(_vm.meta.last_page) +
-            ", from " +
-            _vm._s(_vm.meta.from) +
-            " to " +
-            _vm._s(_vm.meta.to) +
-            " of " +
-            _vm._s(_vm.meta.total) +
-            " records...\r\n        "
-        )
+            "li",
+            { staticClass: "page-item", class: { disabled: !_vm.links.next } },
+            [
+              _c(
+                "a",
+                {
+                  staticClass: "page-link",
+                  attrs: { href: "#", "aria-label": "Next" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.fetchData(_vm.links.next)
+                    }
+                  }
+                },
+                [
+                  _c("span", { attrs: { "aria-hidden": "true" } }, [
+                    _vm._v("»")
+                  ])
+                ]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c("li", { staticClass: "page-item description-link pl-2" }, [
+            _vm._v(
+              "\r\n             Page " +
+                _vm._s(_vm.meta.current_page) +
+                " of " +
+                _vm._s(_vm.meta.last_page) +
+                ", from " +
+                _vm._s(_vm.meta.from) +
+                " to " +
+                _vm._s(_vm.meta.to) +
+                " of " +
+                _vm._s(_vm.meta.total) +
+                " records...\r\n        "
+            )
+          ])
+        ])
       ])
-    ])
-  ])
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -90040,7 +90107,6 @@ try {
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-window.axios.defaults.headers.common['Authorization'] = 'Bearer L9mjLQksd5tbGQkjlx8QshPgT9XDCo3XD65UfYPxYZ5ciMgvr6nIu7m7Ww8j';
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -90275,7 +90341,7 @@ var TIMY_DROPDOWN_CONFIG = {
    * to prefix your routes. For instance, you can pass the whole server url 'https://example.com' or
    * maybe just use the backslash pattern such as '/api' or '/admin' https://example.com/api'
    */
-  routes_prefix: "",
+  routes_prefix: "/timy",
 
   /**
    * Any time the user refresh the browser or close it all running timers are closed. 

@@ -39,7 +39,7 @@ export default {
     data() {
         return {
             loading: false,
-            now: null,
+            now: moment(),
             timers: [],
             links: [],
             meta: [],
@@ -77,7 +77,7 @@ export default {
          * update all open timers visible in the table.
          */
         getTimers(url = null) {            
-            url = url ?? `${TIMY_DROPDOWN_CONFIG.routes_prefix}/timy_timers`
+            url = url ?? `${TIMY_DROPDOWN_CONFIG.routes_prefix}/timers`
             
             axios.get(url)
                 .then(({data}) => {
@@ -93,11 +93,11 @@ export default {
          * open timers visible. Open timers are those where the finished_at date is null.
          */
         updateOpenTimers(timer) {
-            this.now = moment()
             this.openTimersInterval = setInterval(() => {
                 this.timers.forEach(timer => {
                     if (timer.finished_at == null) {
                         let total_hours = Number(moment().diff(moment(this.now), 'seconds') / 60 / 60)
+                        eventBus.$emit('timer-counter-updated', total_hours)
                         
                         timer.total_hours = total_hours
                         if (!! timer.is_payable) {
@@ -105,7 +105,7 @@ export default {
                         }
                     }
                 })
-            }, 1000 /** Every 35 seconds, time that actually change a decimal value */)
+            }, 35000 )/** Every 35 seconds, time that actually change a decimal value */
         },
         /**
          * Return a boolean indicating if the current timer is payable to the user.

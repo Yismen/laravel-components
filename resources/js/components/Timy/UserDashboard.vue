@@ -19,13 +19,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xl-6 mb-2 mb-xl-0">
+                <div class="col-12 mb-2">
                    <TimersBarChart :chart-data="hours_daily"
-                    chart-title="Daily" 
+                    chart-title="Daily Hours" 
                     border-color="rgba(63, 81, 181, 1)" 
                     background-color="rgba(63, 81, 181, 0.25)" />
                 </div>
-                <div class="col-xl-6">
+                <div class="col-12">
                    <TimersBarChart :chart-data="hours_by_payrolls" 
                     chart-title="Hours By Payroll" 
                     border-color="rgba(46,125,50 ,1)" 
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import {TIMY_DROPDOWN_CONFIG} from './config'
+import {TIMY_DROPDOWN_CONFIG, eventBus} from './config'
 import Infobox from './partials/_Infobox'
 import TimersTable from './partials/_UserTimersTable'
 import TimersBarChart from './partials/_UserTimersBarChart'
@@ -52,8 +52,10 @@ export default {
         return {
             loading: true,
             hours_today: 0,
-            hours_last_date: 0,
+            hours_today_initial: 0,
             hours_payrolltd: 0,
+            hours_payrolltd_initial: 0,
+            hours_last_date: 0,
             hours_last_payroll: 0,
             hours_daily: 0,
             hours_by_payrolls: 0
@@ -62,20 +64,30 @@ export default {
 
     mounted() {
         /**
+         * listen to timer-counter-updated event by _UserTimersTabe 
+         * in method updateOpenTimers
+         */
+        eventBus.$on('timer-counter-updated', async (hours) => {
+            this.hours_today.hours = Number(this.hours_today_initial.hours) + Number(hours)
+            this.hours_payrolltd.hours = this.hours_payrolltd_initial.hours + hours
+        }) // updateOpenTimers method
+        /**
          * Set up a timeout to give the Dropdown component the time to render and create a new timer. 
          * Trying to ensure the last timer is also fetched by the UserTimesTable component. 
          */
         setTimeout(() => {
-            axios.get(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/timy_timers/user_dashboard`)
+            axios.get(`${TIMY_DROPDOWN_CONFIG.routes_prefix}/timers/user_dashboard`)
                 .then(({data}) => {
                     this.hours_today = data.data.hours_today
-                    this.hours_last_date = data.data.hours_last_date
+                    this.hours_today_initial = {...data.data.hours_today}
                     this.hours_payrolltd = data.data.hours_payrolltd
+                    this.hours_payrolltd_initial = {...data.data.hours_payrolltd}
+                    this.hours_last_date = data.data.hours_last_date
                     this.hours_daily = data.data.hours_daily
                     this.hours_by_payrolls = data.data.hours_by_payrolls
                 })
                 .finally(() => this.loading = false)
-        }, 3000)
+        }, 2000)
     },
 
     computed: {
