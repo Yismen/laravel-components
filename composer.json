@@ -50,8 +50,7 @@
         "psr-4": {
             "App\\": "app/",
             "Dainsys\\Commands\\ClearLogs\\": "packages/laravel-clear-logs/src/",
-            "Dainsys\\Timy\\": "packages/timy/src/",
-            "Dainsys\\Timy\\App\\": "packages/timy/src/app/"
+            "Dainsys\\Timy\\": "packages/timy/src/"
         },
         "classmap": [
             "database/seeds",
