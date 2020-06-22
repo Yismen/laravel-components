@@ -14,18 +14,24 @@
         {
             "type": "git",
             "url": "https://github.com/Yismen/timy.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/Yismen/locky.git"
         }
     ],
     "license": "MIT",
     "require": {
         "php": "^7.2.5",
+        "dainsys/locky": "dev-master",
         "dainsys/timy": "*",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.5",
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
-        "laravel/ui": "^2.0"
+        "laravel/ui": "^2.0",
+        "spatie/laravel-permission": "^3.13"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
@@ -49,8 +55,7 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
-            "Dainsys\\Commands\\ClearLogs\\": "packages/laravel-clear-logs/src/",
-            "Dainsys\\Timy\\": "packages/timy/src/"
+            "Dainsys\\Locky\\" : "dev/locky/src/"
         },
         "classmap": [
             "database/seeds",
@@ -60,8 +65,7 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/",
-            "Dainsys\\Commands\\ClearLogs\\Tests\\": "packages/laravel-clear-logs/tests/",
-            "Dainsys\\Timy\\Tests\\": "packages/timy/tests/"
+            "Dainsys\\Locky\\Tests\\" : "dev/locky/tests/"
         }
     },
     "minimum-stability": "dev",

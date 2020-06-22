@@ -166,10 +166,11 @@ return [
         /*
          * Package Service Providers...
          */
-
+        // Dainsys\Locky\LockyServiceProvider::class,
+        
         /*
-         * Application Service Providers...
-         */
+        * Application Service Providers...
+        */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
