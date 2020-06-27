@@ -1,6 +1,6 @@
 <?php
 
-namespace Dainsys\Locky\View\Components;
+namespace Dainsys\Components\View\Components;
 
 use Illuminate\View\Component;
 

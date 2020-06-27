@@ -1,10 +1,10 @@
 <?php
 
-namespace Dainsys\Locky\View\Components;
+namespace Dainsys\Components\View\Components;
 
 use Illuminate\View\Component;
 
-class LockyInputField extends Component
+class InputField extends Component
 {
     public $fieldValue;
 

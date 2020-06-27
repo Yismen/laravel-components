@@ -3,13 +3,13 @@
 namespace Dainsys\Components;
 
 use App\User;
-use Dainsys\Locky\View\Components\InputFieldAddon;
-use Dainsys\Locky\View\Components\InputLabel;
-use Dainsys\Locky\View\Components\LockyInputField;
+use Dainsys\Components\View\Components\InputFieldAddon;
+use Dainsys\Components\View\Components\InputLabel;
+use Dainsys\Components\View\Components\InputField;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 
-class LockyServiceProvider extends ServiceProvider
+class ComponentsServiceProvider extends ServiceProvider
 {
 
     public function boot()
@@ -50,7 +50,7 @@ class LockyServiceProvider extends ServiceProvider
     protected function registerPackageComponents()
     {
         Blade::component('dainsys_components-input-label', InputLabel::class);
-        Blade::component('dainsys_components-input-field', LockyInputField::class);
+        Blade::component('dainsys_components-input-field', InputField::class);
         Blade::component('dainsys_components-input-field-addon', InputFieldAddon::class);
 
         return $this;
