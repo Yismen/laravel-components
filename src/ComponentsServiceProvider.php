@@ -49,9 +49,9 @@ class ComponentsServiceProvider extends ServiceProvider
 
     protected function registerPackageComponents()
     {
-        Blade::component('dainsys_components-input-label', InputLabel::class);
-        Blade::component('dainsys_components-input-field', InputField::class);
-        Blade::component('dainsys_components-input-field-addon', InputFieldAddon::class);
+        Blade::component('dc-input-label', InputLabel::class);
+        Blade::component('dc-input-field', InputField::class);
+        Blade::component('dc-input-field-addon', InputFieldAddon::class);
 
         return $this;
     }

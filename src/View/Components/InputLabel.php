@@ -31,6 +31,6 @@ class InputLabel extends Component
      */
     public function render()
     {
-        return view('locky::components.input-label');
+        return view('components.input-label');
     }
 }

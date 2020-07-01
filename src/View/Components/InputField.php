@@ -37,6 +37,6 @@ class InputField extends Component
      */
     public function render()
     {
-        return view('locky::components.input-field');
+        return view('components.input-field');
     }
 }

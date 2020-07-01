@@ -5,7 +5,7 @@ A laravel components UI for Bootstrap 4!
 ## Ussage:
 * Input Field
 ````html
-<x-locky-input-field 
+<x-dc-input-field 
     type="name"
     :field-value="old('name', $user->name)" 
     field-name="name" 
@@ -13,7 +13,7 @@ A laravel components UI for Bootstrap 4!
 ````
 * Input field with add-on
 ````html    
-<x-locky-input-field-addon
+<x-dc-input-field-addon
     type="text"
     :field-value="old('name', $permission->name)" 
     field-name="name" 
