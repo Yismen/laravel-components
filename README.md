@@ -1,15 +1,28 @@
-* Install with `composer` by runining the command `composer require dainsys/locky`
-* The package it self is a wrapper for `spatie/laravel-permission`, which will be installed as a dependency, so you MUST publish their dependencies by running `php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"` command.
-* Add the `Dainsys\Components\Componentsable;` to your `User` model(s);
-```javascript
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Spatie\Permission\Traits\HasRoles;
-
-class User extends Authenticatable
-{
-    use HasRoles;
-}
-```
-
- to you `User` model: `use Componentsable;` and also add the use statement at the top of the clase `use Dainsys\Components\Componentsable;`
- 
+# Dainsys Laravel Components  
+A laravel components UI for Bootstrap 4!
+## Installation
+* Install with `composer` by runining the command `composer require dainsys/components`
+## Ussage:
+* Input Field
+````html
+<x-locky-input-field 
+    type="name"
+    :field-value="old('name', $user->name)" 
+    field-name="name" 
+    label-name="Name"/>
+````
+* Input field with add-on
+````html    
+<x-locky-input-field-addon
+    type="text"
+    :field-value="old('name', $permission->name)" 
+    field-name="name" 
+    label-name="Permission Name:"
+/>
+````
+### Options
+* You can set html properties to PHP variables to change the behaviours:
+- `field-name="Some Name"` or `:field-name="$someName"`: field name and id properties.
+-  `:field-name="true"`: Determines if the field is required.
+- `type="text"`: Sets field type (text, email, date, password, etc.).
+- `field-value="Some Value"` or `:field-value="$someValue"`: Sets the default field value on initial payload.

@@ -1,6 +1,6 @@
 {
     "name": "dainsys/components",
-    "description": "Components package for Dainsys",
+    "description": "A laravel components UI for Bootstrap 4!",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -10,6 +10,10 @@
         }
     ],
     "minimum-stability": "dev",
+    "require": {
+        "php": "^7.0",
+        "laravel/framework": "^7.0"
+    },
     "autoload": {
         "psr-4": {
             "Dainsys\\Components\\": "src/"
@@ -19,12 +23,6 @@
         "psr-4": {
             "Dainsys\\Components\\Tests\\": "tests/"
         }
-    },
-    "require": {
-        "php": "^7.0",
-        "laravel/framework": "^7.0"
-    },
-    "require-dev": {
     },
     "extra": {
         "laravel": {
