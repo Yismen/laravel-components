@@ -9,7 +9,8 @@ A laravel components UI for Bootstrap 4!
     type="name"
     :field-value="old('name', $user->name)" 
     field-name="name" 
-    label-name="Name"/>
+    label-name="Name"
+/>
 ````
 * Input field with add-on
 ````html    
