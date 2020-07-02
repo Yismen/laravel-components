@@ -31,6 +31,6 @@ class InputLabel extends Component
      */
     public function render()
     {
-        return view('components.input-label');
+        return view('dainsys_components::input-label');
     }
 }

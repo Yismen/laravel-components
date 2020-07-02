@@ -21,28 +21,20 @@ class ComponentsServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->mergeConfigFrom(
-            __DIR__ . '/../config/dainsys_components.php',
-            'dainsys_components'
-        );
     }
 
     protected function registerPublishables()
     {
         $this->publishes([
-            __DIR__ . '/../config/dainsys_components.php' => config_path('dainsys_components.php')
-        ], 'dainsys_components-config');
-
-        $this->publishes([
-            __DIR__ . '/../resources/views' => resource_path('views/vendor/dainsys/dainsys_components')
-        ], 'dainsys_components-views');
+            __DIR__ . '/..' => resource_path('views/vendor/dainsys/components')
+        ], 'dainsys-components-views');
 
         return $this;
     }
 
     protected function bootConfigurations()
     {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'dainsys_components');
+        $this->loadViewsFrom(__DIR__ . '/../components', 'dainsys_components');
 
         return $this;
     }

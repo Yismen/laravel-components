@@ -24,6 +24,6 @@ A laravel components UI for Bootstrap 4!
 ### Options
 * You can set html properties to PHP variables to change the behaviours:
 - `field-name="Some Name"` or `:field-name="$someName"`: field name and id properties.
--  `:field-name="true"`: Determines if the field is required.
+-  `:required="true"`: Determines if the field is required.
 - `type="text"`: Sets field type (text, email, date, password, etc.).
 - `field-value="Some Value"` or `:field-value="$someValue"`: Sets the default field value on initial payload.

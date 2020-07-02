@@ -43,6 +43,6 @@ class InputFieldAddon extends Component
      */
     public function render()
     {
-        return view('components.input-field-addon');
+        return view('dainsys_components::input-field-addon');
     }
 }
