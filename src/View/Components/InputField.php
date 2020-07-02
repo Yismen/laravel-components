@@ -37,6 +37,6 @@ class InputField extends Component
      */
     public function render()
     {
-        return view('dainsys_components::components.input-field');
+        return view('dainsys_components::input-field');
     }
 }
