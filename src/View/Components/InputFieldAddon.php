@@ -25,7 +25,7 @@ class InputFieldAddon extends Component
      *
      * @return void
      */
-    public function __construct($fieldValue, $fieldName, $type = null, $labelName, $required = true, $buttonAction = "CREATE", $btnClass = 'btn-primary')
+    public function __construct($fieldValue, $fieldName, $labelName, $type = null, $required = true, $buttonAction = "CREATE", $btnClass = 'btn-primary')
     {
         $this->fieldValue = $fieldValue;
         $this->fieldName = $fieldName;

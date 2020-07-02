@@ -3,6 +3,7 @@
 namespace Dainsys\Components;
 
 use App\User;
+use Dainsys\Components\View\Components\Form;
 use Dainsys\Components\View\Components\InputFieldAddon;
 use Dainsys\Components\View\Components\InputLabel;
 use Dainsys\Components\View\Components\InputField;
@@ -44,6 +45,7 @@ class ComponentsServiceProvider extends ServiceProvider
         Blade::component('dc-input-label', InputLabel::class);
         Blade::component('dc-input-field', InputField::class);
         Blade::component('dc-input-field-addon', InputFieldAddon::class);
+        Blade::component('dc-form', Form::class);
 
         return $this;
     }
