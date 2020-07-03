@@ -1,6 +1,6 @@
 <?php
 
-namespace Dainsys\Components\View\Components;
+namespace Dainsys\Components\View;
 
 use Illuminate\View\Component;
 
@@ -25,7 +25,7 @@ class InputFieldAddon extends Component
      *
      * @return void
      */
-    public function __construct($fieldValue, $fieldName, $labelName, $type = null, $required = true, $buttonAction = "CREATE", $btnClass = 'btn-primary')
+    public function __construct($fieldValue, $fieldName, $labelName, $type = 'text', $required = true, $buttonAction = "CREATE", $btnClass = 'btn-primary')
     {
         $this->fieldValue = $fieldValue;
         $this->fieldName = $fieldName;

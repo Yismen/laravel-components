@@ -1,6 +1,6 @@
 <?php
 
-namespace Dainsys\Components\View\Components;
+namespace Dainsys\Components\View;
 
 use Illuminate\View\Component;
 

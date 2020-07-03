@@ -4,7 +4,7 @@
             <span class="text-danger" title="This field is required"> **</span>
         @endif
     </label>
-    <input type="{{ $type ?? 'text' }}"
+    <input type="{{ $type }}"
         class="form-control @error($fieldName) is-invalid @enderror" 
         name="{{ $fieldName }}" 
         id="{{ $fieldName }}" 

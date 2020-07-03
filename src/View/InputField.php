@@ -1,14 +1,18 @@
 <?php
 
-namespace Dainsys\Components\View\Components;
+namespace Dainsys\Components\View;
 
 use Illuminate\View\Component;
 
-class InputLabel extends Component
+class InputField extends Component
 {
+    public $fieldValue;
+
     public $fieldName;
 
-    public $label;
+    public $type;
+
+    public $labelName;
 
     public $required;
 
@@ -17,10 +21,12 @@ class InputLabel extends Component
      *
      * @return void
      */
-    public function __construct($fieldName, $label, $required = true)
+    public function __construct($fieldValue, $fieldName, $labelName, $type = 'text', $required = true)
     {
+        $this->fieldValue = $fieldValue;
         $this->fieldName = $fieldName;
-        $this->label = $label;
+        $this->type = $type;
+        $this->labelName = $labelName;
         $this->required = $required;
     }
 
@@ -31,6 +37,6 @@ class InputLabel extends Component
      */
     public function render()
     {
-        return view('dainsys_components::input-label');
+        return view('dainsys_components::input-field');
     }
 }

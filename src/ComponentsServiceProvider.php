@@ -3,10 +3,10 @@
 namespace Dainsys\Components;
 
 use App\User;
-use Dainsys\Components\View\Components\Form;
-use Dainsys\Components\View\Components\InputFieldAddon;
-use Dainsys\Components\View\Components\InputLabel;
-use Dainsys\Components\View\Components\InputField;
+use Dainsys\Components\View\Form;
+use Dainsys\Components\View\InputFieldAddon;
+use Dainsys\Components\View\InputLabel;
+use Dainsys\Components\View\InputField;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 
