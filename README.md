@@ -4,21 +4,25 @@ A laravel components UI for Bootstrap 4!
 * Install with `composer` by runining the command `composer require dainsys/components`
 ## Ussage:
 * Input Field
+- type="text". Field type. By default 'text'
+- :required="true". boolean. Default True
 ````html
 <x-dc-input-field 
-    type="name"
-    :field-value="old('name', $user->name)" 
-    field-name="name" 
-    label-name="Name"
+    :field-value="old('value', optional($user ?? null)->value)" 
+    field-name="value" 
+    label-name="Label"
 />
 ````
 * Input field with add-on
 ````html    
+* Input Field
+- type="text". Field type. By default 'text'
+- :required="true". boolean. Default True
 <x-dc-input-field-addon
-    type="text"
-    :field-value="old('name', $permission->name)" 
-    field-name="name" 
-    label-name="Permission Name:"
+    :field-value="old('value', optional($user ?? null)->value)" 
+    field-name="value" 
+    label-name="Label"
+    button-action="CREATE"
 />
 ````
 * Form
