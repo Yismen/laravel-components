@@ -20,10 +20,14 @@ A laravel components UI for Bootstrap 4!
     field-name="name" 
     label-name="Permission Name:"
 />
+````
+* Form
+- route: destination url.
+- method: "GET" or "POST"
 ````html
-<x-dc-form
-    :route="{{ route('some_route') }}"
-/>
+<x-dc-form route="{{ route('employee.store') }}">
+        
+</x-dc-form> 
 ````
 ### Options
 * You can set html properties to PHP variables to change the behaviours:
