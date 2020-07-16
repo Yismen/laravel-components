@@ -1,4 +1,12 @@
-<form action="{{ $route }}" method="{{ $method }}" class="w-100" autocomplete="{{ $autocomplete }}">
+<form 
+    action="{{ $route }}" method="{{ $method }}"
+    autocomplete="{{ $autocomplete }}"
+    {{ $attributes->merge([
+        'class' => 'w-100',
+        'id' => '',
+        'name' => ''
+    ]) }}
+>
     @csrf
     {{ $slot }}
 </form>
