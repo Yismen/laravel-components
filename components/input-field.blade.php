@@ -1,10 +1,13 @@
-    <label for="{{ $fieldName }}">
+        <label for="{{ $fieldName }}">
         {{ $labelName }}
         @if ((bool)$required == true)
             <span class="text-danger" title="This field is required"> **</span>
         @endif
     </label>
-    <input type="{{ $type }}"
+    <input 
+        {{ $attributes->merge([
+            'type' => $type,
+        ]) }}
         class="form-control @error($fieldName) is-invalid @enderror" 
         name="{{ $fieldName }}" 
         id="{{ $fieldName }}" 
