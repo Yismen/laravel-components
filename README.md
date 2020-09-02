@@ -3,9 +3,17 @@ A laravel components UI for Bootstrap 4!
 ## Installation
 * Install with `composer` by runining the command `composer require dainsys/components`
 ## Ussage:
-* Input Field
-- type="text". Field type. By default 'text'
-- :required="true". boolean. Default True
+### Form
+* route="", the route or action where the form will be submitted
+* method="POST", the form method. Options 'GET', 'POST'. Default is 'POST'
+* autocomplete="off", form autocomplete. Default 'off'. Options ('on', 'off')
+````html
+<x-dc-form route="{{ route('employee.store') }}">        
+</x-dc-form> 
+````
+### Input Field
+* type="text". Field type.  Options are HTML5 input fields (text, number, date, etc.). Default 'text'
+* :required="true". wether or not the field is required. Options true, false. Default true
 ````html
 <x-dc-input-field 
     :field-value="old('value', optional($user ?? null)->value)" 
@@ -13,29 +21,35 @@ A laravel components UI for Bootstrap 4!
     label-name="Label"
 />
 ````
-* Input field with add-on
+### Input field with add-on
+* type="text", field type. Options are HTML5 input fields (text, number, date, etc.). Default 'text'
+* :required="true", wether or not the field is required. Options true, false. Default true
+* btn-class="btn-primary", bootstrap btn color class. default is btn-primary
 ````html    
-* Input Field
-- type="text". Field type. By default 'text'
-- :required="true". boolean. Default True
 <x-dc-input-field-addon
     :field-value="old('value', optional($user ?? null)->value)" 
     field-name="value" 
     label-name="Label"
-    button-action="CREATE"
+    button-action="SAVE"
 />
 ````
-* Form
-- route: destination url.
-- method: "GET" or "POST"
-````html
-<x-dc-form route="{{ route('employee.store') }}">
-        
-</x-dc-form> 
+### Select Field
+* :required="true", determine of the field is required. Default true
+* :multiple="false", whether or not to treat the select as multiple. Default false
+````html    
+<x-dc-select-field
+    :field-value="old('value', optional($user ?? null)->value)" 
+    field-name="value" 
+    label-name="Label"
+    :data-array="[]"
+/>
 ````
-### Options
-* You can set html properties to PHP variables to change the behaviours:
-- `field-name="Some Name"` or `:field-name="$someName"`: field name and id properties.
--  `:required="true"`: Determines if the field is required.
-- `type="text"`: Sets field type (text, email, date, password, etc.).
-- `field-value="Some Value"` or `:field-value="$someValue"`: Sets the default field value on initial payload.
+### Text Area
+* :required="true", wether or not the field is required. Options true, false. Default true
+* rows="5", the number of rows on render. Default is 5
+````html    
+<x-dc-input-field-addon
+    :field-value="old('value', optional($user ?? null)->value)" 
+    field-name="value" 
+    label-name="Label"
+/>
