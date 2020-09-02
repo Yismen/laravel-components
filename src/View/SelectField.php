@@ -36,7 +36,7 @@ class SelectField extends Component
         $this->fieldName = $fieldName;
         $this->labelName = $labelName;
         $this->required = (bool) $required;
-        $this->dataArray = (array) $dataArray;
+        $this->dataArray = $dataArray;
         $this->multiple = (bool) $multiple;
     }
 

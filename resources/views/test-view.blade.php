@@ -18,8 +18,8 @@
                             <x-dc-select-field 
                                 :field-value="old('value', optional($user ?? null)->value)" 
                                 field-name="value" 
-                                :data-array="[]"
-                                label-name="Input Text Field"
+                                :data-array="$array_data"
+                                label-name="Select field"
                             />     
                             <x-dc-text-area 
                                 :field-value="old('value', optional($user ?? null)->value)" 

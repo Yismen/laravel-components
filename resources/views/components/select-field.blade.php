@@ -5,6 +5,7 @@
             <span class="text-danger" title="This field is required"> **</span>
         @endif
     </label>
+    
     <select 
         class="form-control @error($fieldName) is-invalid @enderror" 
         name="{{ $fieldName }}" 
