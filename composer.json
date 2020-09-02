@@ -1,0 +1,34 @@
+{
+    "name": "dainsys/components",
+    "description": "A laravel components UI for Bootstrap 4!",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yismen Jorge",
+            "email": "yismen.jorge@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.0",
+        "laravel/framework": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dainsys\\Components\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Dainsys\\Components\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Dainsys\\Components\\ComponentsServiceProvider"
+            ]
+        }
+    }
+}
