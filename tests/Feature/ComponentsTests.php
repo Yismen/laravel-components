@@ -78,9 +78,16 @@ class ComponentsTests extends AppTestCase
     /** @test */
     public function it_renders_select_field_tests()
     {
-        $component = new SelectField('Your Name', 'name', 'Name:', []);
+        $initialData = [
+            1 => 'Select Option 1',
+            2 => 'Select Option 2',
+            3 => 'Select Option 3',
+            4 => 'Select Option 4',
+        ];
 
-        tap($component, function (Component $view) {
+        $component = new SelectField('Your Name', 'name', 'Name:', $initialData);
+        tap($component, function (Component $view) use ($initialData) {
+            $view->render();
             $this->assertInstanceOf(SelectField::class, $view);
             $this->assertEquals('dainsys_components::components.select-field',  $view->render()->getName());
             $this->assertEquals($view->data()['fieldName'], 'name');
@@ -88,6 +95,7 @@ class ComponentsTests extends AppTestCase
             $this->assertEquals($view->data()['fieldValue'], 'Your Name');
             $this->assertEquals($view->data()['required'], true);
             $this->assertEquals($view->data()['multiple'], false);
+            $this->assertEquals($view->data()['dataArray'], $initialData);
         });
     }
 

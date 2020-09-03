@@ -16,9 +16,10 @@ class ComponentsController extends Controller
     protected function mockedData()
     {
         return [
-            1 => 'Here I am',
-            2 => 'Change the cable',
-            3 => 'This is crazy'
+            1 => 'Select Option 1',
+            2 => 'Select Option 2',
+            3 => 'Select Option 3',
+            4 => 'Select Option 4',
         ];
     }
 }
