@@ -6,7 +6,7 @@
             <div class="col-sm-12 col-md-10 col-lg-8">
                 <div class="card">
                     <div class="card-header bg-white">
-                        <h4>Components</h4>
+                        <h4>Component lorem s</h4>
                     </div>
                     <div class="card-body">
                         <x-dc-form route="/">
@@ -15,6 +15,7 @@
                                 field-name="value" 
                                 label-name="Input Text Field"
                             />   
+                               
                             <x-dc-select-field 
                                 :field-value="old('value', optional($user ?? null)->value)" 
                                 field-name="value" 
