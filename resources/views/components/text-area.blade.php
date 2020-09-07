@@ -10,12 +10,11 @@
         name="{{ $fieldName }}" 
         id="{{ $fieldName }}" 
         aria-describedby="{{ $fieldName }}"
-        value="{{ $fieldValue }}"
         rows="{{ (int)$rows }}"
         @if ((bool)$required == true)
             required
         @endif
-        ></textarea>
+        >{{ $fieldValue }}</textarea>
         @error($fieldName)
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
